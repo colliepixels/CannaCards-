@@ -17,12 +17,12 @@ contract KittyInterface {
   );
 }
 
-contract ZombieFeeding is ZombieFactory {
+contract CardFeeding is CannaCardFactory {
 
   KittyInterface kittyContract;
 
-  modifier onlyOwnerOf(uint _zombieId) {
-    require(msg.sender == zombieToOwner[_zombieId]);
+  modifier onlyOwnerOf(uint _cardId) {
+    require(msg.sender == cardToOwner[_cardId]);
     _;
   }
 
@@ -30,29 +30,29 @@ contract ZombieFeeding is ZombieFactory {
     kittyContract = KittyInterface(_address);
   }
 
-  function _triggerCooldown(Zombie storage _zombie) internal {
-    _zombie.readyTime = uint32(now + cooldownTime);
+  function _triggerCooldown(Card storage _card) internal {      ///check Card not sure
+    _card.readyTime = uint32(now + cooldownTime);
   }
 
-  function _isReady(Zombie storage _zombie) internal view returns (bool) {
-      return (_zombie.readyTime <= now);
+  function _isReady(Card storage _card) internal view returns (bool) {
+      return (_card.readyTime <= now);
   }
 
-  function feedAndMultiply(uint _zombieId, uint _targetDna, string memory _species) internal onlyOwnerOf(_zombieId) {
-    Zombie storage myZombie = zombies[_zombieId];
-    require(_isReady(myZombie));
+  function feedAndMultiply(uint _cardId, uint _targetDna, string memory _species) internal onlyOwnerOf(_cardId) {
+    Card storage myCard = cards[_cardId];
+    require(_isReady(myCard));
     _targetDna = _targetDna % dnaModulus;
-    uint newDna = (myZombie.dna + _targetDna) / 2;
+    uint newDna = (mycard.dna + _targetDna) / 2;
     if (keccak256(abi.encodePacked(_species)) == keccak256(abi.encodePacked("kitty"))) {
       newDna = newDna - newDna % 100 + 99;
     }
-    _createZombie("NoName", newDna);
-    _triggerCooldown(myZombie);
+    _createCard("NoName", newDna);
+    _triggerCooldown(myCard);
   }
 
-  function feedOnKitty(uint _zombieId, uint _kittyId) public {
+  function feedOnKitty(uint _cardId, uint _kittyId) public {
     uint kittyDna;
     (,,,,,,,,,kittyDna) = kittyContract.getKitty(_kittyId);
-    feedAndMultiply(_zombieId, kittyDna, "kitty");
+    feedAndMultiply(_cardId, kittyDna, "kitty");
   }
 }
