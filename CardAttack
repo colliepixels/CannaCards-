@@ -1,0 +1,29 @@
+pragma solidity >=0.5.0 <0.6.0;
+
+import "./cardhelper.sol";
+
+contract CardAttack is CardHelper {
+  uint randNonce = 0;
+  uint attackVictoryProbability = 70;
+
+  function randMod(uint _modulus) internal returns(uint) {
+    randNonce = randNonce.add(1);
+    return uint(keccak256(abi.encodePacked(now, msg.sender, randNonce))) % _modulus;
+  }
+
+  function attack(uint _cardId, uint _targetId) external onlyOwnerOf(_cardId) {
+    Card storage myCard = cards[_cardId];
+    Card storage enemyCard = cards[_targetId];
+    uint rand = randMod(100);
+    if (rand <= attackVictoryProbability) {
+      myCard.winCount = myCard.winCount.add(1);
+      myCard.level = myCard.level.add(1);
+      enemyCard.lossCount = enemyCard.lossCount.add(1);
+      feedAndMultiply(_cardId, enemyCard.dna, "card");
+    } else {
+      myCard.lossCount = myCard.lossCount.add(1);
+      enemyCard.winCount = enemyCard.winCount.add(1);
+      _triggerCooldown(myCard);
+    }
+  }
+}
