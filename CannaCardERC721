@@ -1,0 +1,16 @@
+pragma solidity ^0.8.0;
+
+import "./TradeableERC721Token.sol";
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+
+/**
+ * @title CannaCard
+ * CannaCard - a contract for my non-fungible cannabis cards.
+ */
+contract CannaCard is TradeableERC721Token {
+  constructor(address _proxyRegistryAddress) TradeableERC721Token("CannaCard", "CC", _proxyRegistryAddress) public {  }
+
+  function baseTokenURI() public view returns (string memory) {
+    return "https://static.wixstatic.com/media/";
+  }
+}
