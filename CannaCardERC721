@@ -14,3 +14,29 @@ contract CannaCard is TradeableERC721Token {
     return "https://static.wixstatic.com/media/";
   }
 }
+
+pragma solidity ^0.8.0;
+
+import "./TradeableERC721Token.sol";
+import "openzepplin-solidity/contracts/ownership/Ownable.sol";
+
+/** 
+  * @title CannaCard
+  * CannaCard - a contract for my non-fungible creatures.
+  */
+  contract CannaCard is Tradeable ERC721.sol { 
+    contstructor (address _proxyRegistryAdress) TradableERC721("CannaCard", "CC", _proxyRegistryAddress)
+    
+  function baseTokenURI() public view returs (string memory) {
+    return "https://opensea-creatures-api.herokuapp.com/api/creature/";
+    }
+  
+  }
+
+
+
+
+
+
+
+
