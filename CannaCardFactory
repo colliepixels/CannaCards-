@@ -42,7 +42,7 @@ contract CannaCardFactory is Ownable {
   }
 
   function createRandomCard(string memory _name) public {
-    require(ownerZombieCount[msg.sender] == 0);
+    require(ownerCardCount[msg.sender] == 0);
     uint randDna = _generateRandomDna(_name);
     randDna = randDna - randDna % 100;
     _createCard(_name, randDna);
