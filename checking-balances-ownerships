@@ -1,0 +1,25 @@
+///Checking Balances and Ownerships
+///The nice thing about the Asset type is that it unifies logic between fungibles, non-fungibles, and semi-fungibles.
+///Once you have an Asset, you can see how many any account owns, regardless of whether it's an ERC-20 token or a non-fungible good:
+
+const asset = {
+  tokenAddress: "0x06012c8cf97bead5deae237070f9587f8e7a266d", // CryptoKitties
+  tokenId: "1", // Token ID
+}
+
+const balance = await seaport.getAssetBalance({
+  accountAddress, // string
+  asset, // Asset
+})
+
+const ownsKitty = balance.greaterThan(0)
+
+///You can use this same method for fungible ERC-20 tokens like wrapped ETH (WETH). As a convenience, you can use this fungible wrapper for checking fungible balances:
+
+const balanceOfWETH = await seaport.getTokenBalance({
+  accountAddress, // string
+  tokenAddress: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+})
+
+/// https://github.com/ProjectOpenSea/opensea-js
+
