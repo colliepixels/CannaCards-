@@ -1,1 +1,1 @@
-# CannaCards- baby fetus alpha contracts for CannCards series02
+# CannaCards- contract sketchpad for CannCards series01
